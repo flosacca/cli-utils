@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+
+require 'json'
+
+$*.each do |name|
+  next unless File.file?(name)
+  json = File.read(name)
+  obj = JSON.parse(json)
+  json = JSON.pretty_generate(obj)
+  File.write(name, json)
+end

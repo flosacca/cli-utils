@@ -1,0 +1,31 @@
+#!/usr/bin/env ruby
+
+$*.each do |arg|
+  opt = '?' if arg.equal?($*[0])
+
+  if arg =~ /^##{opt}(\h{6}|\h{3}|)$/
+    if $1.empty?
+      print "\e[49m"
+    else
+      if $1.size == 6
+        rgb = [$1].pack('H*').bytes
+      else
+        rgb = $1.chars.map{ |c| (c+c).hex }
+      end
+      printf "\e[48;2;%d;%d;%dm", *rgb
+    end
+
+  else
+    print arg
+  end
+end
+
+if $*.size == 1 && $1&.[](0)
+  if $stdin.tty?
+    print "##$1".upcase
+  else
+    print $stdin.read
+  end
+end
+
+print "\e[49m", (?\n if $stdin.tty?)
