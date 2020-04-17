@@ -1,11 +1,61 @@
 #!/usr/bin/env ruby
 
 require 'json'
+require 'optparse'
+
+
+class Object
+  def sort_keys
+    self
+  end
+end
+
+
+class Array
+  def sort_keys
+    map(&:sort_keys)
+  end
+end
+
+
+class Hash
+  def sort_keys
+    sort_by{ |k, v| k }.map do |k, v|
+      [k, v.sort_keys]
+    end.to_h
+  end
+end
+
+
+options = {}
+
+OptionParser.new(nil, 12) do |op|
+  op.on('-s', 'Sort keys')
+  op.on('-o FILE', 'Specifiy the output file')
+  op.parse!(into: options)
+end
+
+file = if name = options[:o]
+  name == '-' ? $> : open(name, 'w')
+end
 
 $*.each do |name|
-  next unless File.file?(name)
-  json = File.read(name)
+  if name == '-'
+    json = $stdin.read
+  else
+    next unless File.file?(name)
+    json = File.read(name)
+  end
+
   obj = JSON.parse(json)
+  obj = obj.sort_keys if options[:s]
   json = JSON.pretty_generate(obj)
-  File.write(name, json)
+
+  if file
+    file.puts(json)
+  elsif name == '-'
+    $>.puts(json)
+  else
+    File.write(name, json + ?\n)
+  end
 end
