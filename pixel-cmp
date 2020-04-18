@@ -1,0 +1,33 @@
+#!/usr/bin/env python3
+
+import sys
+from PIL import Image
+
+
+def diff(s):
+    print(s)
+    sys.exit(1)
+
+
+if __name__ == '__main__':
+    if len(sys.argv) != 3:
+        print('Usage: {} IMAGE1 IMAGE2'.format(__file__.split('/')[-1]))
+        sys.exit(2)
+
+    im1 = Image.open(sys.argv[1])
+    im2 = Image.open(sys.argv[2])
+
+    if im1.size != im2.size:
+        diff('Not the same size')
+
+    if im1.mode != im2.mode:
+        im1 = im1.convert('RGBA')
+        im2 = im2.convert('RGBA')
+
+    a = im1.load()
+    b = im2.load()
+
+    for i in range(im1.height):
+        for j in range(im1.width):
+            if a[j, i] != b[j, i]:
+                diff(f'{sys.argv[1]} {sys.argv[2]} differ: row {i+1}, column {j+1}')
