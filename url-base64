@@ -1,0 +1,16 @@
+#!/usr/bin/env ruby
+
+require 'base64'
+require 'optparse'
+
+opts = {}
+OptionParser.new do |op|
+  op.on('-d'){ opts[:decode] = true }
+  op.parse!
+end
+
+unless opts[:decode]
+  puts Base64.urlsafe_encode64($<.read, padding: false)
+else
+  print Base64.urlsafe_decode64($<.read.chomp)
+end

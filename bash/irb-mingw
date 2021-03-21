@@ -1,0 +1,9 @@
+#!/bin/bash
+# Use IRB from MinGW in WSL
+
+# WARNING
+# Do not use this in MSYS2
+# Make sure `which irb` returns the system irb
+
+# ruby.exe uses windows path
+exec ruby.exe C:/msys64/mingw64/bin/irb "$@"

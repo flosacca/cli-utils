@@ -1,0 +1,9 @@
+#!/bin/bash
+
+OPT=/$([ -n "$MSYSTEM" ] && echo /)
+set -- "${@/#/%}"
+set -- "${@/%/%}"
+while (($#)); do
+  cmd.exe "$OPT"c echo "$1" 2>/dev/null | tail -c+2
+  shift
+done

@@ -1,0 +1,15 @@
+#!/bin/bash
+
+COMPILER='/c/Program Files/AutoHotkey/Compiler'
+OPT=/$([ -n "$MSYSTEM" ] && echo /)
+BIN=unicode.in
+if [ -f "$BIN" ]; then
+  echo "'$BIN'" exists
+  exit 1
+fi
+cp "$COMPILER/Unicode 64-bit.bin" "$BIN"
+while (($#)); do
+  "$COMPILER/Ahk2Exe.exe" "$OPT"in "$1" "$OPT"bin "$BIN"
+  shift
+done
+rm "$BIN"

@@ -1,0 +1,2 @@
+#!/bin/bash
+rm -f ~/.lesshst ~/.irb{-,_}history ~/.{node_repl,python,kotlinc,sqlite}_history
