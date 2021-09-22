@@ -1,2 +1,9 @@
 #!/bin/bash
-rm -f ~/.lesshst ~/.irb{-,_}history ~/.{node_repl,python,kotlinc,sqlite}_history
+rm -f ~/.ipython/profile_default/history.sqlite
+rm -f ~/.irb{-,_}history
+rm -f ~/.kotlinc_history
+rm -f ~/.lesshst
+rm -f ~/.node_repl_history
+rm -f ~/.python_history
+rm -f ~/.sqlite_history
+rm -f ~/.sudo_as_admin_successful
