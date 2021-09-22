@@ -1,3 +1,2 @@
 #!/bin/bash
-for id; do :; done
-run https://pixiv.net/artworks/$id
+run https://pixiv.net/artworks/${@: -1}
