@@ -1,0 +1,9 @@
+#!/bin/bash
+for p in $(which -a $(basename $0)); do
+  if [ ! $p -ef $0 ]; then
+    $p "$@"
+    s=$?
+    rm -f "$HOME/.sudo_as_admin_successful"
+    exit $s
+  fi
+done

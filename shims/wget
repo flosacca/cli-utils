@@ -1,0 +1,5 @@
+#!/bin/bash
+for p in $(which -a $(basename $0)); do
+  [ $p -ef $0 ] || exec $p --no-hsts "$@"
+done
+exit 1
