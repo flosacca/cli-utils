@@ -1,5 +1,14 @@
 #!/bin/bash
-for p in $(which -a $(basename $0)); do
-  [ $p -ef $0 ] || exec $p --no-hsts "$@"
-done
-exit 1
+
+target() {
+  local p
+  which -a "$(basename "$0")" | while IFS= read -r p; do
+    if [ ! "$p" -ef "$0" ] && [ -x "$p" ]; then
+      echo "$p"
+      return 0
+    fi
+  done
+  return 1
+}
+
+exec "$(target)" --no-hsts "$@"
