@@ -9,8 +9,15 @@ OptionParser.new do |op|
   op.parse!
 end
 
-unless opts[:decode]
+mode = :encode
+OptionParser.new do |op|
+  op.on('-d'){ mode = :decode }
+  op.parse!
+end
+
+case mode
+when :encode
   puts Base64.urlsafe_encode64($<.read, padding: false)
-else
+when :decode
   print Base64.urlsafe_decode64($<.read.chomp)
 end

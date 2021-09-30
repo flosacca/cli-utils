@@ -1,0 +1,19 @@
+#!/usr/bin/env ruby
+
+require 'erb'
+require 'optparse'
+
+mode = :encode
+OptionParser.new do |op|
+  op.on('-d'){ mode = :decode }
+  op.parse!
+end
+
+data = ARGV.size != 0 ? ARGV : ARGF.readlines(chomp: true)
+
+case mode
+when :encode
+  puts data.map{ |s| ERB::Util.url_encode(s) }
+when :decode
+  puts data.map{ |s| CGI.unescape(s) }
+end

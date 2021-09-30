@@ -1,0 +1,21 @@
+#!/usr/bin/env ruby
+
+require 'zlib'
+require 'optparse'
+
+mode = :encode
+level = nil
+OptionParser.new do |op|
+  op.on('-d'){ mode = :decode }
+  1.upto(9) do |i|
+    op.on("-#{i}", Integer){ level = i }
+  end
+  op.parse!
+end
+
+case mode
+when :encode
+  print Zlib.deflate($<.read, level)
+when :decode
+  print Zlib.inflate($<.read)
+end
