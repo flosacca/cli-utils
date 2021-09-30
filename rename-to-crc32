@@ -1,0 +1,19 @@
+#!/usr/bin/env ruby
+
+require 'zlib'
+
+if __FILE__ == $0
+  ARGV.each do |path|
+    unless File.file?(path)
+      $stderr.puts "file not found: #{path}"
+      next
+    end
+    code = '%.8X' % Zlib.crc32(File.read(path))
+    new_path = File.join(File.dirname(path), code + File.extname(path))
+    if File.exist?(new_path)
+      $stderr.puts "not renamed: #{path}"
+    else
+      File.rename(path, new_path)
+    end
+  end
+end
