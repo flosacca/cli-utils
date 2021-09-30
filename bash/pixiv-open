@@ -1,2 +1,0 @@
-#!/bin/bash
-run https://pixiv.net/artworks/${@: -1}
