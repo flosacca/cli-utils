@@ -6,4 +6,3 @@ rm -f ~/.lesshst
 rm -f ~/.node_repl_history
 rm -f ~/.python_history
 rm -f ~/.sqlite_history
-rm -f ~/.sudo_as_admin_successful

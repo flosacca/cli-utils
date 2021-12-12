@@ -3,12 +3,6 @@
 require 'base64'
 require 'optparse'
 
-opts = {}
-OptionParser.new do |op|
-  op.on('-d'){ opts[:decode] = true }
-  op.parse!
-end
-
 mode = :encode
 OptionParser.new do |op|
   op.on('-d'){ mode = :decode }
