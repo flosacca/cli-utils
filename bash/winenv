@@ -1,6 +1,6 @@
 #!/bin/bash
 
-OPT=/$([ -n "$MSYSTEM" ] && echo /)
+OPT=/${MSYSTEM:+/}
 set -- "${@/#/%}"
 set -- "${@/%/%}"
 while (($#)); do
