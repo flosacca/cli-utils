@@ -1,0 +1,33 @@
+#!/bin/bash
+
+compact() {
+  diskpart.exe << :
+    select vdisk file=$1
+    attach vdisk readonly
+    compact vdisk
+    detach vdisk
+    exit
+:
+}
+
+wsl_package() {
+  echo "CanonicalGroupLimited.${1}onWindows_79rhkp1fndgsc"
+}
+
+wsl_disk() {
+  echo "$(winenv localappdata)\\Packages\\$(wsl_package "$1")\\LocalState\\ext4.vhdx"
+}
+
+if [[ $IS_WSL || $WSL_DISTRO_NAME ]]; then
+  >&2 echo 'This script cannot run in WSL.'
+  exit 1
+fi
+
+if [ "$#" -eq 0 ]; then
+  >&2 echo "Usage: $(basename "$0") distro..."
+  exit 1
+fi
+
+for dist; do
+  compact "$(wsl_disk "$dist")"
+done

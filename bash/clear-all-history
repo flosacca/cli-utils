@@ -1,4 +1,5 @@
 #!/bin/bash
+rm -f ~/.gosh_history
 rm -f ~/.ipython/profile_default/history.sqlite
 rm -f ~/.irb{-,_}history
 rm -f ~/.kotlinc_history

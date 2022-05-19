@@ -1,9 +1,8 @@
 #!/bin/bash
 
-OPT=/${MSYSTEM:+/}
 set -- "${@/#/%}"
 set -- "${@/%/%}"
-while (($#)); do
-  cmd.exe "$OPT"c echo "$1" 2>/dev/null
+for var; do
+  MSYS2_ARG_CONV_EXCL=* cmd.exe /c echo "$var" 2>/dev/null
   shift
 done
