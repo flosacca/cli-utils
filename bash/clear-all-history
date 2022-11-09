@@ -1,10 +1,13 @@
 #!/bin/bash
-rm -f ~/.gosh_history
+
+rm -f ~/.lesshst
+
 rm -f ~/.ipython/profile_default/history.sqlite
 rm -f ~/.irb{-,_}history
-rm -f ~/.kotlinc_history
-rm -f ~/.lesshst
 rm -f ~/.node_repl_history
 rm -f ~/.python_history
 rm -f ~/.rdbg_history
+
+rm -f ~/.psql_history
+rm -f ~/.rediscli_history
 rm -f ~/.sqlite_history
