@@ -1,8 +1,5 @@
-#!/bin/bash
+#!/bin/sh
 
-set -- "${@/#/%}"
-set -- "${@/%/%}"
 for var; do
-  MSYS2_ARG_CONV_EXCL=* cmd.exe /c echo "$var" 2>/dev/null
-  shift
+  MSYS2_ARG_CONV_EXCL=* cmd.exe /c echo "%$var%" 2>/dev/null
 done

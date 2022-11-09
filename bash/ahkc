@@ -1,15 +1,13 @@
-#!/bin/bash
+#!/bin/sh
 
-COMPILER='/c/Program Files/AutoHotkey/Compiler'
-OPT=/$([ -n "$MSYSTEM" ] && echo /)
-BIN=unicode.in
-if [ -f "$BIN" ]; then
-  echo "'$BIN'" exists
+compiler='/c/Program Files/AutoHotkey/Compiler'
+bin=unicode.in
+if [ -f "$bin" ]; then
+  echo "'$bin' exists"
   exit 1
 fi
-cp "$COMPILER/Unicode 64-bit.bin" "$BIN"
-while (($#)); do
-  "$COMPILER/Ahk2Exe.exe" "$OPT"in "$1" "$OPT"bin "$BIN"
-  shift
+cp "$compiler/Unicode 64-bit.bin" "$bin"
+for src do
+  MSYS2_ARG_CONV_EXCL=* "$compiler/Ahk2Exe.exe" /in "$src" /bin "$bin"
 done
-rm "$BIN"
+rm "$bin"
