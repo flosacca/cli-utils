@@ -1,2 +1,2 @@
 #!/bin/sh
-exec curl -sSL -I -X GET -o /dev/null -w '%{url_effective}' "$@"
+exec curl -sSL -I -X GET -o /dev/null -w '%{url_effective}\n' "$@"
