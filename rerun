@@ -1,0 +1,26 @@
+#!/usr/bin/env ruby
+
+File.open('.restart', 'a') {}
+
+clean = nil
+begin
+  loop do
+    pid = spawn(ENV, *ARGV, pgroup: true)
+    clean = -> do
+      Process.kill 15, -Process.getpgid(pid)
+      Process.wait pid
+      $stderr << "Terminated process #{pid}\n"
+    end
+    last = nil
+    loop do
+      now = File.mtime('.restart')
+      break unless last.nil? || now == last
+      last = now
+      sleep 1
+    end
+    clean.call
+  end
+rescue Interrupt
+ensure
+  clean&.call
+end
