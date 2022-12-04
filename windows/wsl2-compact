@@ -1,7 +1,7 @@
 #!/bin/bash
 
 compact() {
-  diskpart.exe << :
+  diskpart << :
     select vdisk file=$1
     attach vdisk readonly
     compact vdisk
@@ -19,12 +19,14 @@ wsl_disk() {
 }
 
 if [[ $IS_WSL || $WSL_DISTRO_NAME ]]; then
-  >&2 echo 'This script cannot run in WSL.'
+  >&2 echo 'WARNING: The script is running inside WSL.'
+  >&2 echo 'You will want to shutdown WSL before running this script.'
   exit 1
 fi
 
-if [ "$#" -eq 0 ]; then
+if [ "$#" = 0 ]; then
   >&2 echo "Usage: $(basename "$0") distro..."
+  >&2 echo 'You will want to shutdown WSL before running this script.'
   exit 1
 fi
 
