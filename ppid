@@ -1,0 +1,19 @@
+#!/bin/sh
+
+# Usage: ppid pid...
+# Print ppid in a line for each pid, or an empty line if pid not found
+
+ps ax -o pid=,ppid= | awk '
+  BEGIN {
+    n = ARGC
+    ARGC = 1
+  }
+  {
+    p[$1] = $2
+  }
+  END {
+    for (i = 1; i < n; ++i) {
+      print p[ARGV[i]]
+    }
+  }
+' "$@"
