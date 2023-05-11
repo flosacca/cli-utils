@@ -1,9 +1,11 @@
-#!/bin/bash
+#!/bin/sh
+
+# The name "clah" stands for "clear all history"
 
 rm -f ~/.lesshst
 
 rm -f ~/.ipython/profile_default/history.sqlite
-rm -f ~/.irb{-,_}history
+rm -f ~/.irb?history
 rm -f ~/.node_repl_history
 rm -f ~/.python_history
 rm -f ~/.rdbg_history

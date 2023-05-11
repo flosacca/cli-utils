@@ -1,23 +1,5 @@
 #!/bin/bash
 
-compact() {
-  diskpart << :
-    select vdisk file=$1
-    attach vdisk readonly
-    compact vdisk
-    detach vdisk
-    exit
-:
-}
-
-wsl_package() {
-  echo "CanonicalGroupLimited.${1}onWindows_79rhkp1fndgsc"
-}
-
-wsl_disk() {
-  echo "$(winenv localappdata)\\Packages\\$(wsl_package "$1")\\LocalState\\ext4.vhdx"
-}
-
 if [[ $IS_WSL || $WSL_DISTRO_NAME ]]; then
   >&2 echo 'WARNING: The script is running inside WSL.'
   >&2 echo 'You will want to shutdown WSL before running this script.'
@@ -30,6 +12,24 @@ if [ "$#" = 0 ]; then
   exit 1
 fi
 
+compact() {
+  diskpart << :
+    select vdisk file=$1
+    attach vdisk readonly
+    compact vdisk
+    detach vdisk
+    exit
+:
+}
+
+package_name() {
+  echo CanonicalGroupLimited."$1"onWindows_79rhkp1fndgsc
+}
+
+disk_path() {
+  echo "$(winenv localappdata)\\Packages\\$(package_name "$1")\\LocalState\\ext4.vhdx"
+}
+
 for dist; do
-  compact "$(wsl_disk "$dist")"
+  compact "$(disk_path "$dist")"
 done
