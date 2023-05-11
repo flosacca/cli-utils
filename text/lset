@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+
+op, *paths = ARGV
+op, = %w[and or sub]
+  .zip(%i[intersection union difference])
+  .filter_map { |c, v|
+    v if [c, c[0]].include?(op)
+  }
+exit 1 if !op || paths.size < 2
+a, *b = paths.map { |p| File.readlines(p) }
+puts a.send(op, *b)
