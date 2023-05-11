@@ -1,0 +1,19 @@
+#!/bin/sh
+
+ps ax -o pid=,ppid= | awk -v r="$1" '
+  {
+    p[$1] = $2
+    t[++t[0]] = $1
+  }
+  END {
+    for (i = 1; i <= t[0]; ++i) {
+      for (v = t[i]; v; v = p[v]) {
+        if (v == r) {
+          s = sprintf("%s%s\n", s, t[i])
+          break
+        }
+      }
+    }
+    printf "%s", s
+  }
+'
