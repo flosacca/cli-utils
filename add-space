@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+
+re = /(?<=[^[:ascii:][:punct:][:space:]])(?=[\x21-\x7e])|(?<=[\x21-\x7e])(?=[^[:ascii:][:punct:][:space:]])/
+$<.each do |s|
+  print s.gsub(re, ' ')
+end
