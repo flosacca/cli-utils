@@ -1,0 +1,2 @@
+#!/bin/sh
+exec jq -R 'gsub("_"; "/") | gsub("-"; "+") | split(".")[:2][] | @base64d | fromjson' "$@"
