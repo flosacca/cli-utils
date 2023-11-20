@@ -4,16 +4,23 @@ require 'erb'
 require 'optparse'
 
 mode = :encode
+all = false
 OptionParser.new do |op|
-  op.on('-d'){ mode = :decode }
+  op.on('-d') { mode = :decode }
+  op.on('-a') { all = true }
   op.parse!
 end
 
-data = ARGV.size != 0 ? ARGV : ARGF.readlines(chomp: true)
-
-case mode
+handler = case mode
 when :encode
-  puts data.map{ |s| ERB::Util.url_encode(s) }
+  if all
+    -> s { s.unpack1('H*').upcase.gsub(/../, '%\&') }
+  else
+    -> s { ERB::Util.url_encode(s) }
+  end
 when :decode
-  puts data.map{ |s| CGI.unescape(s) }
+  -> s { CGI.unescape(s) }
 end
+
+data = ARGV.size != 0 ? ARGV : ARGF.readlines(chomp: true)
+puts data.map(&handler)

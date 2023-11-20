@@ -4,8 +4,10 @@ require 'base64'
 require 'optparse'
 
 mode = :encode
+linewise = false
 OptionParser.new do |op|
-  op.on('-d'){ mode = :decode }
+  op.on('-d') { mode = :decode }
+  op.on('-l') { linewise = true }
   op.parse!
 end
 
@@ -13,5 +15,11 @@ case mode
 when :encode
   puts Base64.urlsafe_encode64($<.read, padding: false)
 when :decode
-  print Base64.urlsafe_decode64($<.read.chomp)
+  if linewise
+    $<.each(chomp: true) do |line|
+      print Base64.urlsafe_decode64(line)
+    end
+  else
+    print Base64.urlsafe_decode64($<.read.chomp)
+  end
 end
